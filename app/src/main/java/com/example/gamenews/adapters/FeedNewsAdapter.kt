@@ -10,13 +10,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.gamenews.R
 import com.example.gamenews.databinding.NewsItemBinding
 import com.example.gamenews.model.News
-import com.example.gamenews.viewmodel.MainViewModel
 import java.net.URI
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,11 +21,11 @@ import kotlin.collections.ArrayList
 
 class FeedNewsAdapter(
     private val context: Context,
-    private val newsList: List<News>
+    private val newsList: ArrayList<News>?
 ) :
     RecyclerView.Adapter<FeedNewsAdapter.NewsHolder>(), Filterable {
 
-    var newsFilterList: List<News> = newsList
+    var newsFilterList: ArrayList<News>? = newsList
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsHolder {
@@ -38,15 +35,15 @@ class FeedNewsAdapter(
     }
 
     override fun onBindViewHolder(holder: NewsHolder, position: Int) {
-        with(newsFilterList[position]) {
-            holder.binding.newsText.text = title
+        with(newsFilterList?.get(position)) {
+            holder.binding.newsText.text = this?.title ?: ""
             holder.binding.newsSource.text = HtmlCompat.fromHtml(
-                "<a href =\"$click_url\">${URI(click_url).host}</a>",
+                "<a href =\"${this?.click_url}\">${URI(this?.click_url).host}</a>",
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
-            holder.binding.timeAgo.text = "- $time"
+            holder.binding.timeAgo.text = "- ${this?.time}"
             holder.binding.newsSource.movementMethod = LinkMovementMethod.getInstance();
-            if (!img.isNullOrEmpty()) {
+            if (this?.img?.isNullOrEmpty()==false) {
                 Glide.with(context)
                     .load(img)
                     .into(holder.binding.newsImage)
@@ -57,7 +54,7 @@ class FeedNewsAdapter(
         }
     }
 
-    override fun getItemCount() = newsFilterList.size
+    override fun getItemCount() = newsFilterList?.size ?: 0
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -67,11 +64,13 @@ class FeedNewsAdapter(
                     newsFilterList = newsList
                 } else {
                     val resultList = ArrayList<News>()
-                    for (news in newsList) {
-                        if (news.title!!.toLowerCase(Locale.ROOT)
-                                .contains(searchText.toLowerCase(Locale.ROOT))
-                        ) {
-                            resultList.add(news)
+                    if (newsList != null) {
+                        for (news in newsList) {
+                            if (news.title!!.toLowerCase(Locale.ROOT)
+                                    .contains(searchText.toLowerCase(Locale.ROOT))
+                            ) {
+                                resultList.add(news)
+                            }
                         }
                     }
                     newsFilterList = resultList

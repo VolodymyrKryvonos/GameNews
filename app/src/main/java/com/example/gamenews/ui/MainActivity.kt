@@ -1,28 +1,19 @@
 package com.example.gamenews.ui
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.SearchView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.gamenews.R
 import com.example.gamenews.adapters.TopNewsAdapter
 import com.example.gamenews.adapters.ViewPagerTypesAdapter
 import com.example.gamenews.databinding.ActivityMainBinding
-import com.example.gamenews.model.News
 import com.example.gamenews.repository.Repository
 import com.example.gamenews.viewmodel.MainViewModel
 import com.example.gamenews.viewmodel.MainViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import okhttp3.internal.notify
-import okhttp3.internal.wait
 
 class MainActivity : AppCompatActivity() {
 
@@ -112,14 +103,14 @@ class MainActivity : AppCompatActivity() {
 
         })
         topNewsPagerAdapter = TopNewsAdapter(
-            this, viewModel.getTopNews().value!!
+            this, viewModel?.topNews?.value
         )
         binding.topNews.adapter = topNewsPagerAdapter
-        viewModel.getTopNews().observe(this, {
+        viewModel.topNews.observe(this, {
             topNewsPagerAdapter.notifyDataSetChanged()
         })
 
-        viewModel.getTopNews().observe(this, {
+        viewModel.topNews.observe(this, {
             topNewsPagerAdapter.notifyDataSetChanged()
             if (topNewsPagerAdapter.itemCount == 0) {
                 binding.topNews.visibility = View.GONE
@@ -129,8 +120,10 @@ class MainActivity : AppCompatActivity() {
                 binding.dotTabs.visibility = View.VISIBLE
             }
             binding.dotTabs.removeAllTabs()
-            repeat(viewModel.getTopNews().value!!.size) {
-                binding.dotTabs.addTab(binding.dotTabs.newTab())
+            viewModel.topNews.value?.size?.let { it1 ->
+                repeat(it1) {
+                    binding.dotTabs.addTab(binding.dotTabs.newTab())
+                }
             }
 
             TabLayoutMediator(binding.dotTabs, binding.topNews) { _, _ -> }.attach()

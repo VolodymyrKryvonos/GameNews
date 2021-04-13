@@ -31,7 +31,7 @@ class TopNewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-         _binding = TopNewsFragmentBinding.inflate(inflater,container,false)
+        _binding = TopNewsFragmentBinding.inflate(inflater,container,false)
         setContent()
         return binding.root
     }
@@ -60,7 +60,7 @@ class TopNewsFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(news : News) =
+        fun newInstance(news: News?) =
             TopNewsFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(NEWS, news)

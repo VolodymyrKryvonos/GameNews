@@ -1,6 +1,7 @@
 package com.example.gamenews.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,58 +16,43 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         private set
 
     val searchText: MutableLiveData<String> = MutableLiveData()
-    private val stories: MutableLiveData<ArrayList<News>> = MutableLiveData()
-    private val videos: MutableLiveData<ArrayList<News>> = MutableLiveData()
-    private val favorites: MutableLiveData<ArrayList<News>> = MutableLiveData()
-    private val topNews: MutableLiveData<ArrayList<News>> = MutableLiveData()
+    private val _stories: MutableLiveData<ArrayList<News>> = MutableLiveData()
+    private val _videos: MutableLiveData<ArrayList<News>> = MutableLiveData()
+    private val _favorites: MutableLiveData<ArrayList<News>> = MutableLiveData()
+    private val _topNews: MutableLiveData<ArrayList<News>> = MutableLiveData()
+
+    val stories: LiveData<ArrayList<News>> get() = _stories
+    val videos: LiveData<ArrayList<News>> get() = _videos
+    val favorites: LiveData<ArrayList<News>> get() = _favorites
+    val topNews: LiveData<ArrayList<News>> get() = _topNews
 
     init {
-        stories.value = arrayListOf()
-        videos.value = arrayListOf()
-        favorites.value = arrayListOf()
-        topNews.value = arrayListOf()
-    }
-
-    fun getStories(): MutableLiveData<ArrayList<News>> {
-        return stories
-    }
-
-    fun getVideo(): MutableLiveData<ArrayList<News>> {
-        return videos
-    }
-
-    fun getFavorites(): MutableLiveData<ArrayList<News>> {
-        return favorites
-    }
-
-    fun getTopNews(): MutableLiveData<ArrayList<News>> {
-        return topNews
-    }
-
-    override fun hashCode(): Int {
-        return super.hashCode()
+        _stories.value = arrayListOf()
+        _videos.value = arrayListOf()
+        _favorites.value = arrayListOf()
+        _topNews.value = arrayListOf()
     }
 
     private fun distributeNews(news: List<News>) {
-        topNews.value?.clear()
-        stories.value?.clear()
-        videos.value?.clear()
-        favorites.value?.clear()
+        _topNews.value?.clear()
+        _stories.value?.clear()
+        _videos.value?.clear()
+        _favorites.value?.clear()
         for (i in news) {
             if (i.top.equals("0")){
-                topNews.value?.add(i)
+                _topNews.value?.add(i)
             }
             when (i.type) {
-                "strories" -> stories.value?.add(i)
-                "video" -> videos.value?.add(i)
-                "favourites" -> favorites.value?.add(i)
+                "strories" -> _stories.value?.add(i)
+                "video" -> _videos.value?.add(i)
+                "favourites" -> _favorites.value?.add(i)
             }
         }
 
-        topNews.value = topNews.value
-        stories.value = stories.value
-        videos.value = videos.value
-        favorites.value = favorites.value
+        _topNews.value = _topNews.value
+        _stories.value = _stories.value
+        _videos.value = _videos.value
+        _favorites.value = _favorites.value
     }
 
     fun makeRequest() {

@@ -36,17 +36,17 @@ class NewsFeedFragment : Fragment() {
     private fun observeList(){
         when (type){
             "STORIES" -> {
-                viewModel.getStories().observe(this,{
+                viewModel.stories.observe(this,{
                     feedNewsAdapter.notifyDataSetChanged()
                 })
             }
             "VIDEOS" -> {
-                viewModel.getVideo().observe(this,{
+                viewModel.videos.observe(this,{
                     feedNewsAdapter.notifyDataSetChanged()
                 })
             }
             "FAVORITES" -> {
-                viewModel.getStories().observe(this,{
+                viewModel.favorites.observe(this,{
                     feedNewsAdapter.notifyDataSetChanged()
                 })
             }
@@ -71,17 +71,17 @@ class NewsFeedFragment : Fragment() {
         when (type){
             "STORIES" -> {
                 feedNewsAdapter = FeedNewsAdapter(
-                    requireContext(), viewModel.getStories().value!!
+                    requireContext(), viewModel.stories.value
                 )
             }
             "VIDEOS" -> {
                 feedNewsAdapter = FeedNewsAdapter(
-                    requireContext(), viewModel.getVideo().value!!
+                    requireContext(), viewModel.videos.value
                 )
             }
             "FAVORITES" -> {
                 feedNewsAdapter = FeedNewsAdapter(
-                    requireContext(), viewModel.getFavorites().value!!
+                    requireContext(), viewModel.favorites.value
                 )
             }
         }
