@@ -6,17 +6,10 @@
     android:layout_height="wrap_content"
     tools:context=".ui.NewsFeedFragment">
 
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/newsFeed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsFeed"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
- />
-
-
-    </ScrollView>
 </FrameLayout>
