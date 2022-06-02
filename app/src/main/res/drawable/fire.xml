@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/white_circle"/>
-    <item android:drawable="@drawable/ic_baseline_local_fire_department_24" />
-</layer-list>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_activated="true">
+        <layer-list>
+            <item android:drawable="@drawable/ic_baseline_local_fire_department_24" />
+        </layer-list>
+    </item>
+    <item android:state_activated="false">
+        <layer-list>
+            <item android:drawable="@drawable/ic_baseline_local_fire_gray" />
+        </layer-list>
+    </item>
+</selector>

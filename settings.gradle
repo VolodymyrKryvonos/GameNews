@@ -1,2 +1,5 @@
 include ':app'
-rootProject.name = "Game News"
+rootProject.name = "News App"
+include ':domain'
+include ':data'
+include ':utils'
