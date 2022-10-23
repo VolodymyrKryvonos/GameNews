@@ -13,12 +13,12 @@ import java.util.*
 class TopNewsUseCase(private val repository: NewsRepository) {
     operator fun invoke(): Flow<Resource<List<News>>> = flow{
         try {
-            emit(Resource.Loading<List<News>>())
+            emit(Resource.Loading())
             Log.d("TopNewsUseCase", "invoke() called")
             val news = repository.getTopNews()
-            emit(Resource.Success<List<News>>(news))
+            emit(Resource.Success(news))
         }catch (e: Exception){
-            emit(Resource.Error<List<News>>(e.localizedMessage.toString()))
+            emit(Resource.Error(e.localizedMessage?.toString() ?: ""))
         }
     }
 }
