@@ -12,7 +12,6 @@ fun Date.parseDate(pattern: String): String{
         val simpleDate = SimpleDateFormat(pattern, Locale.getDefault())
         simpleDate.format(this)
     }catch (e: Exception){
-        Log.e("Date.parseDate", e.toString())
         ""
     }
 }
@@ -22,7 +21,6 @@ fun String.toDate(pattern: String): Date?{
         val simpleDate = SimpleDateFormat(pattern, Locale.getDefault())
         simpleDate.parse(this)
     }catch (e: Exception){
-        Log.e("String.toDate", e.toString())
         null
     }
 }
