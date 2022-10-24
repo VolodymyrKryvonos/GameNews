@@ -18,6 +18,7 @@ class NewsRepositoryImpl(private val api: Api, private val newsDao: NewsDao) :
 
     override fun getNews(): Flow<List<News>> {
         try {
+            Log.e("GetNews", "Called")
             return newsDao.getNews().map { it.map { entity->entity.toNews() } }
         }catch (e:Exception){
             throw e
